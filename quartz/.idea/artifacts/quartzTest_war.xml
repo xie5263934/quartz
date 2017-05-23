@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="quartzTest:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="com.quartz.test.war">
+      <element id="artifact" artifact-name="quartzTest:war exploded" />
+    </root>
+  </artifact>
+</component>
