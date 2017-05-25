@@ -4,6 +4,7 @@ import com.test.sheldon.service.HelloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author JINRUN.XIE
@@ -16,8 +17,11 @@ public class Hello {
     private HelloService helloService;
 
     @RequestMapping(value = "/test/hello")
-    public String hello(){
+    public ModelAndView hello(){
+        ModelAndView mv = new ModelAndView();
         helloService.hello();
-        return "a";
+        mv.setViewName("a");
+        mv.addObject("name","sheldon");
+        return mv;
     }
 }
