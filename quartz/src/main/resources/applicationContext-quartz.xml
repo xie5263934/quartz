@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <import resource="ApplicationContext-db.xml"/>
+    <bean id="jobFactory" class="com.quartz.test.MyJobFactory"></bean>
+    <bean id="quartzJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="durability" value="true"/>
+        <property name="group" value="group1"/>
+        <property name="jobClass" value="com.quartz.test.SpringQuartz"/>
+    </bean>
+    <bean id="quartzJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="group" value="group1"/>
+        <property name="jobDetail" ref="quartzJob"/>
+        <property name="cronExpression" value="0/10 * * * * ?"/>
+    </bean>
+    <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="configLocation" value="classpath:quartz.properties"/>
+        <property name="overwriteExistingJobs" value="true"/>
+        <property name="triggers">
+            <list>
+                <ref bean="quartzJobTrigger"/>
+            </list>
+        </property>
+        <property name="jobDetails">
+            <list>
+                <ref bean="quartzJob"/>
+            </list>
+        </property>
+        <property name="dataSource" ref="dataSource"/>
+        <property name="transactionManager" ref="txManager"/>
+        <property name="jobFactory" ref="jobFactory"/>
+    </bean>
+</beans>
